@@ -5,15 +5,16 @@
     - Name eth0
     - Adapter Type PCnet-PC II
     - Promiscuous Mode: Allow All
-3. Boot VM, sudo nano /etc/network/interfaces and add
-    auto eth1
-    iface eth1 inet static
-        address 192.168.0.50
-        netmask 255.255.255.0
+3. Boot VM
+    $ sudo nano /etc/network/interfaces and add
+    `auto eth1`<br>
+    `iface eth1 inet static`<br>
+        `address 192.168.0.50`<br>
+        `netmask 255.255.255.0`
 
-4. sudo /etc/init.d/networking restart
+4. `$ sudo /etc/init.d/networking restart`
 
-5. ifconfig
+5. `$ ifconfig`
 
-6. sudo aptitude install openssh-server
+6. `$ sudo aptitude install openssh-server`
 
