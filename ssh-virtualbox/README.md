@@ -6,7 +6,8 @@
     - Adapter Type PCnet-PC II
     - Promiscuous Mode: Allow All
 3. Boot VM
-    $ sudo nano /etc/network/interfaces and add
+    `$ sudo nano /etc/network/interfaces`
+  - add
     `auto eth1`<br>
     `iface eth1 inet static`<br>
         `address 192.168.0.50`<br>
