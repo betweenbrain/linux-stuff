@@ -26,7 +26,7 @@ echo "Now let's update /etc/hosts."
 echo "---------------------------------------------------------------"
 echo
 read -p "Enter the I.P. address of this system: " SYSTEMIP
-read -p "Enter the system domain.tld (i.e example.com): " DOMAIN
+read -p "Enter the system FQDN domain.tld (i.e example.com): " DOMAIN
 #
 mv /etc/hosts /etc/hosts.bak
 echo "
@@ -182,12 +182,12 @@ aptitude install -y iptables
 echo
 echo
 echo
-echo "Setting up basic rules for iptables. Uncomment / modify as needed."
+echo "Setting up basic(!) rules for iptables. Uncomment / modify as needed, with care :)"
 # http://www.thegeekstuff.com/scripts/iptables-rules
-# http://www.debiantutorials.com/loading-iptables-rules-on-startup/
-# http://wiki.centos.org/HowTos/Network/IPTables#head-724ed81dbcd2b82b5fd3f648142796f3ce60c730
+# http://wiki.centos.org/HowTos/Network/IPTables
 # https://help.ubuntu.com/community/IptablesHowTo
 echo "---------------------------------------------------------------"
+
 #
 # Flush old rules
 iptables -F
@@ -195,52 +195,38 @@ iptables -F
 # Allow SSH connections on tcp port $SSHPORT
 # This is essential when working on remote servers via SSH to prevent locking yourself out of the system
 #
- iptables -A INPUT -p tcp --dport $SSHPORT -j ACCEPT
+iptables -A INPUT -p tcp --dport $SSHPORT -j ACCEPT
 
 # Set default chain policies
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
-iptables -P OUTPUT DROP
+iptables -P OUTPUT ACCEPT
+
+# Accept packets belonging to established and related connections
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow loopback access
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
 
 # Block a specific ip-address
 #iptables -A INPUT -s 192.168.666.666 -j DROP
 
-# Allow ALL incoming SSH
-#iptables -A INPUT -i eth0 -p tcp --dport $SSHPORT -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport $SSHPORT -m state --state ESTABLISHED -j ACCEPT
-
-# Allow incoming SSH only from a sepcific network
-#iptables -A INPUT -i eth0 -p tcp -s 192.168.200.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport $SSHPORT -m state --state ESTABLISHED -j ACCEPT
-
 # Allow incoming HTTP
-#iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+# Allow outgoing HTTPS
+iptables -A OUTPUT -o eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
 
 # Allow incoming HTTPS
-#iptables -A INPUT -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
-
-# MultiPorts (Allow incoming SSH, HTTP, and HTTPS)
-iptables -A INPUT -i eth0 -p tcp -m multiport --dports $SSHPORT,80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o eth0 -p tcp -m multiport --sports $SSHPORT,80,443 -m state --state ESTABLISHED -j ACCEPT
-
-# Allow outgoing SSH
-iptables -A OUTPUT -o eth0 -p tcp --dport $SSHPORT -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A INPUT -i eth0 -p tcp --sport $SSHPORT -m state --state ESTABLISHED -j ACCEPT
-
-# Allow outgoing SSH only to a specific network
-#iptables -A OUTPUT -o eth0 -p tcp -d 192.168.101.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
 
 # Allow outgoing HTTPS
 iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
-
-# Load balance incoming HTTPS traffic
-#iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 0 -j DNAT --to-destination 192.168.1.101:443
-#iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 1 -j DNAT --to-destination 192.168.1.102:443
-#iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 2 -j DNAT --to-destination 192.168.1.103:443
 
 # Ping from inside to outside
 iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
@@ -250,34 +236,9 @@ iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
 iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
-# Allow loopback access
-iptables -A INPUT -i lo -j ACCEPT
-iptables -A OUTPUT -o lo -j ACCEPT
-
-# Drop all traffic to 127/8 that does not use lo0
-iptables -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
-
 # Allow packets from internal network to reach external network.
-# if eth1 is connected to external network (internet)
-# if eth0 is connected to internal network (192.168.1.x)
+# if eth1 is external, eth0 is internal
 iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
-
-# Allow outbound DNS
-#iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPT
-#iptables -A INPUT -p udp -i eth0 --sport 53 -j ACCEPT
-
-# Allow NIS Connections
-# rpcinfo -p | grep ypbind ; This port is 853 and 850
-#iptables -A INPUT -p tcp --dport 111 -j ACCEPT
-#iptables -A INPUT -p udp --dport 111 -j ACCEPT
-#iptables -A INPUT -p tcp --dport 853 -j ACCEPT
-#iptables -A INPUT -p udp --dport 853 -j ACCEPT
-#iptables -A INPUT -p tcp --dport 850 -j ACCEPT
-#iptables -A INPUT -p udp --dport 850 -j ACCEPT
-
-# Allow rsync from a specific network
-#iptables -A INPUT -i eth0 -p tcp -s 192.168.101.0/24 --dport 873 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 873 -m state --state ESTABLISHED -j ACCEPT
 
 # Allow MySQL connection only from a specific network
 #iptables -A INPUT -i eth0 -p tcp -s 192.168.200.0/24 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
@@ -287,41 +248,36 @@ iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
 
-# Allow IMAP
-#iptables -A INPUT -i eth0 -p tcp --dport 143 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 143 -m state --state ESTABLISHED -j ACCEPT
-
-# Allow IMAPS
-#iptables -A INPUT -i eth0 -p tcp --dport 993 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 993 -m state --state ESTABLISHED -j ACCEPT
-
-# Allow POP3 and POP3S
-#iptables -A INPUT -i eth0 -p tcp --dport 110 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 110 -m state --state ESTABLISHED -j ACCEPT
-
-iptables -A INPUT -i eth0 -p tcp --dport 995 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o eth0 -p tcp --sport 995 -m state --state ESTABLISHED -j ACCEPT
-
 # Prevent DoS attack
 iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
 iptables -A INPUT -p tcp --dport 443 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
 
-# Port forwarding 422 to 22 - (incoming ssh connection can come from both port 22 and 422)
-#iptables -t nat -A PREROUTING -p tcp -d 192.168.0.1 --dport 422 -j DNAT --to 192.168.0.1:22
-#iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT
-
 # Log dropped packets
 iptables -N LOGGING
 iptables -A INPUT -j LOGGING
-iptables -I INPUT 5 -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
+iptables -I INPUT 5 -m limit --limit 5/min -j LOG --log-prefix "Iptables denied: " --log-level 7
 iptables -A LOGGING -j DROP
 
-sh -c "iptables-save > /etc/iptables.rules"
+# Create the script to load the rules
+echo '#!/bin/sh
+iptables-restore < /etc/iptables.rules
+' > /etc/network/if-pre-up.d/iptablesload
 
-sed -i "s:iface lo inet loopback:iface lo inet loopback\npre-up iptables-restore < /etc/iptables.rules:g" /etc/network/interfaces
-service ssh reload
+# Create the script to save currently used rules
+echo '#!/bin/sh
+iptables-save > /etc/iptables.rules
+if [ -f /etc/iptables.downrules ]; then
+   iptables-restore < /etc/iptables.downrules
+fi
+' > /etc/network/if-post-down.d/iptablessave
+
+# Ensure they are executible
+chmod +x /etc/network/if-post-down.d/iptablessave
+chmod +x /etc/network/if-pre-up.d/iptablesload
+
 #
+/etc/init.d./networking restart
+
 echo
 echo
 echo
@@ -353,18 +309,16 @@ echo "Install and configure postfix as email gateway for sending only"
 echo "---------------------------------------------------------------"
 #
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
-echo "postfix postfix/mailname string $HOSTNAME" | debconf-set-selections
+echo "postfix postfix/mailname string $DOMAIN" | debconf-set-selections
 echo "postfix postfix/destinations string localhost.localdomain, localhost" | debconf-set-selections
 aptitude -y install postfix
 rm /etc/aliases
 echo "root: $USER" >> /etc/aliases
 newaliases
 sed -i "s/myhostname =/#myhostname =/g" /etc/postfix/main.cf
-echo "myhostname = $HOSTNAME" >> /etc/postfix/main.cf
+echo "myhostname = $DOMAIN" >> /etc/postfix/main.cf
 sed -i "s/myorigin/#myorigin/g" /etc/postfix/main.cf
 echo 'myorigin = $mydomain' >> /etc/postfix/main.cf
-sed -i "s/mydestination/#mydestination/g" /etc/postfix/main.cf
-echo "mydestination = \$$DOMAIN, localhost.\$$DOMAIN, localhost" >> /etc/postfix/main.cf
 sed -i "s/mynetworks/#mynetworks/g" /etc/postfix/main.cf
 echo "mynetworks = 127.0.0.0/8" >> /etc/postfix/main.cf
 /etc/init.d/postfix restart
@@ -432,7 +386,7 @@ aptitude -y install libapache-mod-security
 # may have broken Apache2 config
 
 wget http://downloads.sourceforge.net/project/mod-security/modsecurity-crs/0-CURRENT/modsecurity-crs_2.2.3.tar.gz
-tar xzf mmodsecurity-crs_2.2.3.tar.gz
+tar xzf modsecurity-crs_2.2.3.tar.gz
 mv modsecurity-crs_2.2.3 /etc/apache2/modsecurity-crs
 echo
 echo "Loading base config"
@@ -441,11 +395,11 @@ mv /etc/apache2/modsecurity-crs/modsecurity_crs_10_config.conf.example /etc/apac
 echo
 echo "Activating select rulesets"
 echo
-for f in `ls optional_rules/ | grep comment_spam` ; do ln -s /etc/apache2/modsecurity-crs/optional_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in `ls slr_rules/ | grep joomla` ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in `ls slr_rules/ | grep rfi` ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in `ls slr_rules/ | grep lfi` ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in `ls slr_rules/ | grep xss` ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in 'ls /etc/apache2/modsecurity-crs/optional_rules/ | grep comment_spam' ; do ln -s /etc/apache2/modsecurity-crs/optional_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep joomla' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep rfi' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep lfi' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep xss' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
 chown -R root:root /etc/apache2/modsecurity-crs
 rm -r modsecurity-crs_2.2.3.tar.gz modsecurity-crs_2.2.3/
 echo "
