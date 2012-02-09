@@ -395,11 +395,11 @@ mv /etc/apache2/modsecurity-crs/modsecurity_crs_10_config.conf.example /etc/apac
 echo
 echo "Activating select rulesets"
 echo
-for f in 'ls /etc/apache2/modsecurity-crs/optional_rules/ | grep comment_spam' ; do ln -s /etc/apache2/modsecurity-crs/optional_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep joomla' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep rfi' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep lfi' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
-for f in 'ls /etc/apache2/modsecurity-crs/slr_rules/ | grep xss' ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in $(ls /etc/apache2/modsecurity-crs/optional_rules/ | grep comment_spam) ; do ln -s /etc/apache2/modsecurity-crs/optional_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep joomla) ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep rfi) ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep lfi) ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
+for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep xss) ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
 chown -R root:root /etc/apache2/modsecurity-crs
 rm -r modsecurity-crs_2.2.3.tar.gz modsecurity-crs_2.2.3/
 echo "
