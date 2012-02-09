@@ -451,12 +451,13 @@ extension=xsl.so
 echo
 echo
 echo
-echo "Set PHP memory limit to 48M"
+echo "Changing PHP default settings"
 echo "--------------------------------------------------------------"
 echo
 #
-sed -i "s/memory_limit =/#memory_limit =/g" /etc/php5/apache2/php.ini
-echo "memory_limit = 48M" >> /etc/php5/apache2/php.ini
+sed -i "s/memory_limit = 128M/memory_limit = 48M/g" /etc/php5/apache2/php.ini
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 20M/g" /etc/php5/apache2/php.ini
+#
 apache2ctl graceful
 #
 echo
