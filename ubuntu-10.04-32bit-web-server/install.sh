@@ -4,6 +4,7 @@ echo "System updates and basic setup"
 echo "==============================================================="
 echo
 echo
+echo
 echo "First things first, let's make sure we have the latest updates."
 echo "---------------------------------------------------------------"
 echo
@@ -54,8 +55,8 @@ aptitude install ntp ntpdate
 echo "Setting the language and charset"
 echo "---------------------------------------------------------------"
 echo
-read -p "Enter your language (i.e. en_GB): " LANGUAGE
-read -p "Enter your charset (i.e. UTF-8): " CHARSET
+read -p "Enter your language (i.e. en_GB): " -e -i en_GB LANGUAGE
+read -p "Enter your charset (i.e. UTF-8): " -e -i UTF-8 CHARSET
 #
 locale-gen $LANGUAGE.$CHARSET
 /usr/sbin/update-locale LANG=$LANGUAGE.$CHARSET
@@ -241,7 +242,7 @@ iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
 iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
 
 # Allow MySQL connection only from a specific network
-#iptables -A INPUT -i eth0 -p tcp -s 192.168.200.0/24 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
+#iptables -A INPUT -i eth0 -p tcp -s 10.5.1.5 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
 #iptables -A OUTPUT -o eth0 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT
 
 # Allow Sendmail or Postfix
@@ -311,7 +312,9 @@ echo "---------------------------------------------------------------"
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
 echo "postfix postfix/mailname string $DOMAIN" | debconf-set-selections
 echo "postfix postfix/destinations string localhost.localdomain, localhost" | debconf-set-selections
+#
 aptitude -y install postfix
+#
 rm /etc/aliases
 echo "root: $USER" >> /etc/aliases
 newaliases
@@ -401,7 +404,7 @@ for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep rfi) ; do ln -s /et
 for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep lfi) ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
 for f in $(ls /etc/apache2/modsecurity-crs/slr_rules/ | grep xss) ; do ln -s /etc/apache2/modsecurity-crs/slr_rules/$f /etc/apache2/modsecurity-crs/activated_rules/$f ; done
 chown -R root:root /etc/apache2/modsecurity-crs
-rm -r modsecurity-crs_2.2.3.tar.gz modsecurity-crs_2.2.3/
+rm -r modsecurity-crs_2.2.3.tar.gz
 echo "
 <IfModule security2_module>
     Include modsecurity-crs/modsecurity_crs_10_config.conf
@@ -409,10 +412,14 @@ echo "
     Include modsecurity-crs/activated_rules/*.conf
 </IfModule>
 " >> /etc/apache2/conf.d/modsecurity
+#
+echo "Fixing backward compatability issue in ModSecurity CRS v2.2.3"
+#
+sed -i "s/REQBODY_ERROR/REQBODY_PROCESSOR_ERROR/g" /etc/apache2/modsecurity-crs/base_rules/modsecurity_crs_20_protocol_violations.conf
 
 # TODO: failban - http://library.linode.com/security/fail2ban
 
-# TODO: look at mod_evasive ? - http://www.zdziarski.com/blog/?page_id=442 - http://www.linuxlog.org/?p=135 , http://library.linode.com/web-servers/apache/mod-evasive,
+# TODO: look at mod_evasive http://www.linuxlog.org/?p=135 , http://library.linode.com/web-servers/apache/mod-evasive
 
 echo
 echo
@@ -465,7 +472,7 @@ echo "
   ServerAdmin webmaster@$DOMAIN
   Options FollowSymLinks MultiViews
   DirectoryIndex index.php index.html
-  DocumentRoot /home/$USER/www/$DOMAIN/public_html
+  DocumentRoot /home/$USER/www/$DOMAIN/public_html/
   LogLevel warn
   ErrorLog  /home/$USER/www/$DOMAIN/log/error.log
   CustomLog /home/$USER/www/$DOMAIN/log/access.log combined

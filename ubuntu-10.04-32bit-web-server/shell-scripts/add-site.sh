@@ -15,7 +15,7 @@ echo "
   ServerAdmin $EMAIL
   Options FollowSymLinks MultiViews
   DirectoryIndex index.php index.html
-  DocumentRoot /home/$USER/www/$DOMAIN/public_html
+  DocumentRoot /home/$USER/www/$DOMAIN/public_html/
   LogLevel warn
   ErrorLog  /home/$USER/www/$DOMAIN/log/error.log
   CustomLog /home/$USER/www/$DOMAIN/log/access.log combined
