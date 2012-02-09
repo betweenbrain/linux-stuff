@@ -1,9 +1,10 @@
 1. In VM Manager, go to File -> Preferences -> Network and add a Host-only adapter if none exists
 
 2. Open setting of VM in VM Manager, Network -> Adapter 2
-    - change Attached to: Bridged Adapter
+    - Enabled Network Adapter
+    - Attached to: Bridged Adapter
     - Name eth0
-    - Adapter Type PCnet-PC II
+    - Adapter Type: PCnet-PC II
     - Promiscuous Mode: Allow All
 3. Boot VM
     `$ sudo nano /etc/network/interfaces`
