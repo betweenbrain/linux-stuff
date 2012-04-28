@@ -1,5 +1,5 @@
 Changelog:
-  - Apr 27 2012: Updated segments for Ubuntu 12.04
+  - Apr 27, 2012: Updated segments for Ubuntu 12.04
 
 
 Install Ubuntu
@@ -163,30 +163,7 @@ GIT
 
 Set up Git
 
-    $ sudo apt-get install git-core
-	$ export EDITOR=nano
-
-    - Create / import keys
-
-    $ git clone git://git.kernel.org/pub/scm/git/git.git
-    $ cd git
-    $ git tag
-
-    v1.7.2.3
-    v1.7.3-rc0
-    v1.7.3-rc1
-    v1.7.3-rc2
-
-    $ git checkout v1.7.3-rc2
-    $ make prefix=/usr/local all
-    $ sudo make prefix=/usr/local install
-    $ which git
-
-    /usr/local/bin/git
-
-    $ git --version
-
-    git version 1.7.3.rc2
+   `$ sudo apt-get install git-core`
 
 
 Gedit
@@ -266,6 +243,16 @@ Networking
 	`$ sudo chattr +i /etc/resolv.conf`
 
 
+Install Oracle Java - from http://forums.linuxmint.com/viewtopic.php?f=42&t=93052
+---------
+	`$ echo "deb http://www.duinsoft.nl/pkg debs all" | sudo tee /etc/apt/sources.list.d/oracle-java.list`
+	`$ sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5CB26B26`
+	`$ sudo apt-get update`
+	`$ sudo apt-get install update-sun-jre`
+	`$ sudo update-sun-jre -v -i install`
+
+	`$ java -version` should give us `java version "1.6.0_31"`
+
 
 
 Awesome Apps
@@ -288,7 +275,7 @@ Awesome Apps
     `$ apt-get install giggle`
 - Meld diff viewer
     `$ apt-get install meld`
-- PhpStorm from http://www.jetbrains.com/ (Yes, you need to pay for it. The shock and horror!)
+- PhpStorm from http://www.jetbrains.com/
 - Kxb CD / DVD creator
 - XVidCap
 - AcidRip
