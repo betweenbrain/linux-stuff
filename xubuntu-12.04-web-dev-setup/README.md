@@ -146,6 +146,21 @@ Tools / Apps
 
 
 
+3. Add your ssh identity
 
+	`ssh-add`
 
+4. Install Oracle Java - from http://forums.linuxmint.com/viewtopic.php?f=42&t=93052
+
+	`$ echo "deb http://www.duinsoft.nl/pkg debs all" | sudo tee /etc/apt/sources.list.d/oracle-java.list`
+
+	`$ sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5CB26B26`
+
+	`$ sudo apt-get update`
+
+	`$ sudo apt-get install update-sun-jre`
+
+	`$ sudo update-sun-jre -v -i install`
+
+	`$ java -version` should give us `java version "1.6.0_31"`
 
