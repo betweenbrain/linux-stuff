@@ -7,14 +7,14 @@ Basic Setup
 
 2. Set up dual monitors
 
-	`$ sudo nano ~/.xprofile
-	xrandr --output VGA-0 --left-of DVI-0`
+	`$ sudo nano ~/.xprofile`<br/>
+	`xrandr --output VGA-0 --left-of DVI-0`
 
 3. Move panels to primary 
 
 	- Right-click => Panel => Panel Preferences => Output
 
-4. Clear ctrl+f5
+4. Free ctrl+f5
 
 	- Applications Menu > Settings > Settings Manager > Window Manager
 	- check the Keyboard tab, and find the option which has Ctrl+F5 configured as short-cut key
