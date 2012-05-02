@@ -288,4 +288,6 @@ Awesome Apps
 - Kxb CD / DVD creator
 - XVidCap
 - AcidRip
+- LibreOffice
+  - Add LibreOffice repo `sudo apt-add-repository ppa:libreoffice/ppa`
 
