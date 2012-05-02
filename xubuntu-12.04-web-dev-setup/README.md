@@ -7,7 +7,8 @@ Basic Setup
 
 2. Set up dual monitors
 
-	`$ xrandr --output VGA-0 --left-of DVI-0`
+	`$ sudo nano ~/.xprofile
+	xrandr --output VGA-0 --left-of DVI-0`
 
 3. Move panels to primary 
 
