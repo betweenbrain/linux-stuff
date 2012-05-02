@@ -165,3 +165,6 @@ Tools / Apps
 
 	`$ java -version` should give us `java version "1.6.0_31"`
 
+5. Install Gedit
+
+	`sudo apt-get install gedit gedit-plugins gedit-developer-plugins`
