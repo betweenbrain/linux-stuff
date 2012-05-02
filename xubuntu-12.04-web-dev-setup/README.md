@@ -21,6 +21,9 @@ Basic Setup
 	- clear that short-cut key
 	- you should be able to use Ctrl+F5 key now
 
+5. Set custom Datetime Date
+	`%a, %d %b %Y %l:%M:%S %P`
+
 Web Server
 ----------
 
@@ -151,12 +154,12 @@ Tools / Apps
 
 	`ssh-add`
 
-4. Implement custom name ssh files
+4. Implement custom named ssh files
 	`$ sudo nano /etc/ssh/ssh_config`
 
 	add `IdentityFile ~/.ssh/customname`
 
-5. Install Oracle (Sun) Java 1.6.0_32
+5. Install Oracle (Sun) Java 1.6.0_32 - https://help.ubuntu.com/community/Java
 
 NOTE: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working.
 
@@ -184,4 +187,7 @@ Other Great Apps
 --------------
 - Meld Diff Viewer
 - FileZilla
+- KeePassX
+- Giggle Git repositoy viewer
+
 
