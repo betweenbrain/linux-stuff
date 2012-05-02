@@ -151,20 +151,37 @@ Tools / Apps
 
 	`ssh-add`
 
-4. Install Oracle Java - from http://forums.linuxmint.com/viewtopic.php?f=42&t=93052
+4. Implement custom name ssh files
+	`$ sudo nano /etc/ssh/ssh_config`
 
-	`$ echo "deb http://www.duinsoft.nl/pkg debs all" | sudo tee /etc/apt/sources.list.d/oracle-java.list`
+	add `IdentityFile ~/.ssh/customname`
 
-	`$ sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5CB26B26`
+5. Install Oracle (Sun) Java 1.6.0_32
 
-	`$ sudo apt-get update`
+NOTE: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working.
 
-	`$ sudo apt-get install update-sun-jre`
+	- download latest Oracle (Sun) JAVA 6 from http://www.oracle.com/technetwork/java/javase/downloads/jre-6u32-downloads-1594646.html
+	`$ sudo chmod u+x jre-6u32-linux-x64.bin`
 
-	`$ sudo update-sun-jre -v -i install`
+	`$ sudo ./jre-6u32-linux-x64.bin`
 
-	`$ java -version` should give us `java version "1.6.0_31"`
+	`$ sudo mv jre1.6.0_32 /usr/lib/jvm/`
 
-5. Install Gedit
+	`$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.6.0_32/bin/java" 1`
+
+	`$ sudo update-alternatives --install "/usr/lib/mozilla/plugins/libjavaplugin.so" "mozilla-javaplugin.so" "/usr/lib/jvm/jre1.6.0_32/lib/amd64/libnpjp2.so" 1`
+
+	`$ sudo update-alternatives --config java`
+
+	`$ sudo update-alternatives --config mozilla-javaplugin.so`
+
+
+6. Install Gedit
 
 	`sudo apt-get install gedit gedit-plugins gedit-developer-plugins`
+
+Other Great Apps
+--------------
+- Meld Diff Viewer
+- FileZilla
+
