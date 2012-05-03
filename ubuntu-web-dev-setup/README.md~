@@ -193,7 +193,7 @@ Gedit
 
     `$ git clone -b Gedit2 https://github.com/trentrichardson/Gedit-Clientside-Plugin.git`
 
-    - Copy the clientside directory and clientside.gedit-plugin file into your gedit plugins directory.
+    - Copy the clientside directory and clientside.gedit-plugin file into your gedit plugins directory (/usr/lib/gedit/plugins/).
     - Start or restart gedit
     - Open the Preferences, and navigate to Plugins, check to enable Clientside plugin
 
@@ -201,8 +201,8 @@ Gedit
 
 5. Gedit themes - https://github.com/mig/gedit-themes
 
-    `$ git clone https://github.com/mig/gedit-themes.git ~/.gnome2/gedit`<br>
-    `$ cd ~/.gnome2/gedit/gedit-themse`<br>
+    `$ git clone https://github.com/mig/gedit-themes.git ~/.gnome2/gedit/styles`<br>
+    `$ cd ~/.gnome2/gedit/gedit/styles`<br>
     `$ install.sh`
 
 

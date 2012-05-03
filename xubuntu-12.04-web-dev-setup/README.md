@@ -1,18 +1,21 @@
 Basic Setup
 ---------
 
+WARNING: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working (may have other adverse affects)
+
 1. Update
 
 	`$ sudo apt-get update && sudo apt-get upgrade`
 
 2. Set up dual monitors
 
-	`$ sudo nano ~/.xprofile`<br/>
-	`xrandr --output VGA-0 --left-of DVI-0`
+	`$ sudo nano ~/.xprofile`
+
+	add `xrandr --output VGA-0 --left-of DVI-0`
 
 3. Move panels to primary 
 
-	- Right-click => Panel => Panel Preferences => Output
+	- Right-click > Panel > Panel Preferences > Output
 
 4. Free ctrl+f5
 
@@ -23,6 +26,12 @@ Basic Setup
 
 5. Set custom Datetime Date
 	`%a, %d %b %Y %l:%M:%S %P`
+
+6. Add some panel items
+	- right-click top panel, click Places
+	- right-click Places > move
+
+
 
 Web Server
 ----------
@@ -48,17 +57,23 @@ Web Server
 4. Run Apache as yourself, add the following to end of /etc/apache2/httpd.conf - http://ubuntuforums.org/showthread.php?t=809934
 
 	`ServerName localhost`
-	`User username`<br>
+
+	`User username`
+
 	`Group username`
 
 5. Set Userdir as default localhost - https://help.ubuntu.com/community/ApacheMySQLPHP#Virtual%20Hosts\
 
-    `$ sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/username`<br>
-    `$ sudo nano /etc/apache2/sites-available/username`<br>
-    - Change the `DocumentRoot` to point to the new location. For example, `/home/username/public_html/`<br>
-    - Change the `Directory` directive, replace `<Directory /var/www/>` with `<Directory /home/username/public_html/>`<br>
+    `$ sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/username`
+
+    `$ sudo nano /etc/apache2/sites-available/username`
+
+    - Change the `DocumentRoot` to point to the new location. For example, `/home/username/public_html/`
+
+    - Change the `Directory` directive, replace `<Directory /var/www/>` with `<Directory /home/username/public_html/>`
 
     - Disable default site and enable yours
+
     `$ sudo a2dissite default && sudo a2ensite username`
 
 6. Specificy DirectoryIndex of files - https://help.ubuntu.com/10.04/serverguide/C/httpd.html
@@ -79,10 +94,12 @@ Web Server
     First look in the `<Directory />` section and change the line:
 
     `AllowOverride None`
+
     to
+
     `AllowOverride All`
 
-    Do the same for the `<Directory /var/www/>` section.
+    Do the same for the `<Directory /home/username/public_html/>` section.
 
     Once you have the file edited, restart Apache with the command:
 
@@ -148,46 +165,88 @@ Tools / Apps
     Refresh package cache and install the newest s3cmd:
         `$ sudo apt-get update && sudo apt-get install s3cmd`
 
-
-
-3. Add your ssh identity
-
-	`ssh-add`
-
-4. Implement custom named ssh files
+3. Implement custom named ssh files
 	`$ sudo nano /etc/ssh/ssh_config`
 
 	add `IdentityFile ~/.ssh/customname`
 
-5. Install Oracle (Sun) Java 1.6.0_32 - https://help.ubuntu.com/community/Java
+4. Install Oracle (Sun) Java 1.6.0_32 - https://help.ubuntu.com/community/Java
 
-NOTE: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working.
+	NOTE: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working.
 
 	- download latest Oracle (Sun) JAVA 6 from http://www.oracle.com/technetwork/java/javase/downloads/jre-6u32-downloads-1594646.html
 	`$ sudo chmod u+x jre-6u32-linux-x64.bin`
 
 	`$ sudo ./jre-6u32-linux-x64.bin`
 
-	`$ sudo mv jre1.6.0_32 /usr/lib/jvm/`
+	`$ sudo mv jre1.6.0_32 /usr/lib/jvm/jre1.6.0_32`
 
 	`$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.6.0_32/bin/java" 1`
 
 	`$ sudo update-alternatives --install "/usr/lib/mozilla/plugins/libjavaplugin.so" "mozilla-javaplugin.so" "/usr/lib/jvm/jre1.6.0_32/lib/amd64/libnpjp2.so" 1`
 
+	- OPTIONAL: If more than one version of Java installed
+
 	`$ sudo update-alternatives --config java`
 
 	`$ sudo update-alternatives --config mozilla-javaplugin.so`
+
+	- Check by running in terminal
+
+	`$ java -version` should answer with 
+
+	`java version "1.6.0_32"`<br>
+	`Java(TM) SE Runtime Environment (build 1.6.0_32-b05)`<br>
+	`Java HotSpot(TM) 64-Bit Server VM (build 20.7-b02, mixed mode)`
 
 
 6. Install Gedit
 
 	`sudo apt-get install gedit gedit-plugins gedit-developer-plugins`
 
+- Gedit plugin to format, minify, and validate javascript and CSS
+
+    PREREQUISITES - NodeJS: http://nodejs.org/
+
+    `$ sudo apt-get install nodejs`
+
+    INSTALL
+
+    `$ git clone https://github.com/trentrichardson/Gedit-Clientside-Plugin.git`
+
+    - Copy the clientside directory and clientside.gedit-plugin file into your gedit plugins directory (/usr/lib/gedit/plugins/).
+    - Start or restart gedit
+    - Open the Preferences, and navigate to Plugins, check to enable Clientside plugin
+
+- Gedit themes - https://github.com/mig/gedit-themes
+
+    `$ git clone https://github.com/mig/gedit-themes.git ~/.gnome2/gedit/styles`<br>
+    `$ cd ~/.gnome2/gedit/gedit/styles`<br>
+
+7. Add Gimp "save for web" http://blog.sudobits.com/2010/09/06/gimp-save-for-web-plugin-image-optimization-on-ubuntu/
+
+     Open Synaptic package manager and search for ‘gimp plugin registry’
+
+8. Install VirutalBox - https://help.ubuntu.com/community/VirtualBox
+    - Download  from http://www.virtualbox.org/wiki/Linux_Downloads for USB support
+	- if VT-X issue
+	`$ VBoxManage modifyvm virtualmachinename --hwvirtex off`
+	- Install guest additions
+
+	1. Launch VB
+	2. Devices -> Install Guest Additions
+
+    - Share host folder
+    `VBoxManage sharedfolder add "XP" -name "share" -hostpath /home/your/shared/directory/VirtualBoxShare/`
+
+
+
 Other Great Apps
 --------------
 - Meld Diff Viewer
 - FileZilla
+	- Edit > Settings > sftp to import your .ppk keyfile
+
 - KeePassX
 - Giggle Git repositoy viewer
-
-
+- palimpsest "Disk Utility"
