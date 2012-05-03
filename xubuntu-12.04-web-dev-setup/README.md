@@ -204,6 +204,10 @@ Tools / Apps
 
 	`sudo apt-get install gedit gedit-plugins gedit-developer-plugins`
 
+- Eliminate annoying backup files
+
+	- Edit > Preferences, select the Editor tab, uncheck “Create a backup copy of files before saving” option, click Close.
+
 - Gedit plugin to format, minify, and validate javascript and CSS
 
     PREREQUISITES - NodeJS: http://nodejs.org/
