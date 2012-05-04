@@ -31,6 +31,11 @@ WARNING: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from wo
 	- right-click top panel, click Places
 	- right-click Places > move
 
+7. Tweak terminal appearance
+
+	- background: #2C001E @ 95% opacity
+	- text-selection: #DD4814
+	- text: #f3f3f3
 
 
 Web Server
@@ -130,6 +135,10 @@ Web Server
 9. Fetch latest Adminer
 
 	`wget http://www.adminer.org/latest-mysql-en.php -O /home/username/public_html/adminer/index.php`
+
+10. Install cURL
+
+	`$ sudo apt-get install php5-curl`
 
  DNS
 ---------
@@ -254,3 +263,30 @@ Other Great Apps
 - KeePassX
 - Giggle Git repositoy viewer
 - palimpsest "Disk Utility"
+
+
+Network File Sharing (NFS) - http://ubuntuforums.org/showthread.php?t=249889
+-----
+
+Server:
+
+	`$ sudo apt-get install nfs-kernel-server rpcbind`
+
+	`$ sudo nano /etc/exports`
+		- example red/write share of users home directory to only local addresses `/home/user 192.168.0.0/24(rw,no_root_squash,no_subtree_check)
+
+	`$ sudo /etc/init.d/nfs-kernel-server restart`
+
+	`$ sudo exportfs -a`
+		
+Client:
+
+	`$ sudo apt-get install nfs-common rpcbind`
+
+	`$ sudo mkdir /mnt/localNameOfTheShare`
+
+	- one time mount `sudo mount server.mydomain.com://home/user /mnt/localNameOfTheShare`
+
+	- mount at boot	`$ sudo nano /etc/fstab` add `server.mydomain.com://home/user /mnt/localNameOfTheShare nfs rw,soft,intr 0 0`
+
+	- `server.mydomain.com` can also be an IP address
