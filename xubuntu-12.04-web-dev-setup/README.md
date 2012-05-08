@@ -143,17 +143,15 @@ Web Server
  DNS
 ---------
 
-1. Edit resolv.conf to set DNS to use Google
+1. Edit resolv.conf to set DNS to use Google nameservers - http://www.stgraber.org/2012/02/24/dns-in-ubuntu-12-04/
 
-	`$ sudo nano /etc/resolv.conf`
+	`$ sudo nano /etc/resolvconf/resolv.conf.d/head`
+
+	-add
 
 	`nameserver 8.8.8.8`
 
 	`nameserver 8.8.4.4`
-
-2. Prevent file from being overwritten
-
-	`$ sudo chattr +i /etc/resolv.conf`
 
 
 Tools / Apps
