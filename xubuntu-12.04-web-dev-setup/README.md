@@ -39,6 +39,12 @@ WARNING: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from wo
 	- text-selection: #DD4814
 	- text: #f3f3f3
 
+8. Speed up Thunar initial launch - http://ubuntuforums.org/showpost.php?p=11109244&postcount=1
+	- Open Thunar
+	- File > Properties > Permissions
+	- set your "group" to have read & write permissions
+
+
 
 Web Server
 ----------
@@ -260,6 +266,13 @@ Client:
 
 	- `server.mydomain.com` can also be an IP address
 
+
 Speed up folder view
 -----
 	- something to do with folder permissions / adding yourself
+
+Tweak Grub
+-----
+	-`$ sudo nano /etc/default/grub`
+
+	-`$ sudo update-grub`
