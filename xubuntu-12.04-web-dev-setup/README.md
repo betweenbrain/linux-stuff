@@ -25,6 +25,8 @@ WARNING: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from wo
 	- you should be able to use Ctrl+F5 key now
 
 5. Set custom Datetime Date
+	- right-click date > properties
+
 	`%a, %d %b %Y %l:%M:%S %P`
 
 6. Add some panel items
@@ -161,53 +163,18 @@ Tools / Apps
 
 	`sudo apt-get install git-core`
 
-2. Install s3cmd package
-
-    Import S3tools signing key:
-        `$ wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | sudo apt-key add -`
-
-    Add the repo to sources.list:
-        `$ sudo wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list`
-
-    Refresh package cache and install the newest s3cmd:
-        `$ sudo apt-get update && sudo apt-get install s3cmd`
-
-3. Implement custom named ssh files
+2. Implement custom named ssh files
 	`$ sudo nano /etc/ssh/ssh_config`
 
 	add `IdentityFile ~/.ssh/customname`
 
-4. Install Oracle (Sun) Java 1.6.0_32 - https://help.ubuntu.com/community/Java
-
-	NOTE: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working.
-
-	- download latest Oracle (Sun) JAVA 6 from http://www.oracle.com/technetwork/java/javase/downloads/jre-6u32-downloads-1594646.html
-	`$ sudo chmod u+x jre-6u32-linux-x64.bin`
-
-	`$ sudo ./jre-6u32-linux-x64.bin`
-
-	`$ sudo mv jre1.6.0_32 /usr/lib/jvm/jre1.6.0_32`
-
-	`$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.6.0_32/bin/java" 1`
-
-	`$ sudo update-alternatives --install "/usr/lib/mozilla/plugins/libjavaplugin.so" "mozilla-javaplugin.so" "/usr/lib/jvm/jre1.6.0_32/lib/amd64/libnpjp2.so" 1`
-
-	- OPTIONAL: If more than one version of Java installed
-
-	`$ sudo update-alternatives --config java`
-
-	`$ sudo update-alternatives --config mozilla-javaplugin.so`
-
-	- Check by running in terminal
-
-	`$ java -version` should answer with 
-
-	`java version "1.6.0_32"`<br>
-	`Java(TM) SE Runtime Environment (build 1.6.0_32-b05)`<br>
-	`Java HotSpot(TM) 64-Bit Server VM (build 20.7-b02, mixed mode)`
+3. Install Oracle (Sun) Java 1.7.0_05 - http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html
+	`sudo add-apt-repository ppa:webupd8team/java`
+	`sudo apt-get update`
+	`sudo apt-get install oracle-java7-installer`
 
 
-6. Install Gedit
+4. Install Gedit
 
 	`sudo apt-get install gedit gedit-plugins gedit-developer-plugins`
 
@@ -234,11 +201,11 @@ Tools / Apps
     `$ git clone https://github.com/mig/gedit-themes.git ~/.gnome2/gedit/styles`<br>
     `$ cd ~/.gnome2/gedit/gedit/styles`<br>
 
-7. Add Gimp "save for web" http://blog.sudobits.com/2010/09/06/gimp-save-for-web-plugin-image-optimization-on-ubuntu/
+5. Add Gimp "save for web" http://blog.sudobits.com/2010/09/06/gimp-save-for-web-plugin-image-optimization-on-ubuntu/
 
      Open Synaptic package manager and search for ‘gimp plugin registry’
 
-8. Install VirutalBox - https://help.ubuntu.com/community/VirtualBox
+6. Install VirutalBox - https://help.ubuntu.com/community/VirtualBox
     - Download  from http://www.virtualbox.org/wiki/Linux_Downloads for USB support
 	- if VT-X issue
 	`$ VBoxManage modifyvm virtualmachinename --hwvirtex off`
@@ -261,6 +228,10 @@ Other Great Apps
 - KeePassX
 - Giggle Git repositoy viewer
 - palimpsest "Disk Utility"
+- Back in Time - http://backintime.le-web.org/
+- Gimp
+- Trimage image compressor
+- K3B
 
 
 Network File Sharing (NFS) - http://ubuntuforums.org/showthread.php?t=249889
@@ -288,3 +259,7 @@ Client:
 	- mount at boot	`$ sudo nano /etc/fstab` add `server.mydomain.com://home/user /mnt/localNameOfTheShare nfs rw,soft,intr 0 0`
 
 	- `server.mydomain.com` can also be an IP address
+
+Speed up folder view
+-----
+	- something to do with folder permissions / adding yourself
