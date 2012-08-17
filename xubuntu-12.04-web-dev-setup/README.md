@@ -286,3 +286,13 @@ Realtek Network Driver - http://ubuntuforums.org/showpost.php?p=11585129&postcou
 	- `echo r8169 >> /etc/modules`
 	- `exit`
 
+
+
+`couldn't connect to: /tmp/keyring...` issue - http://laslow.net/2012/05/06/gnome-keyring-issues-in-ubuntu-12-04/
+-----
+	- edit /etc/xdg/autostart/gnome-keyring-pkcs11.desktop
+	- find `OnlyShowIn=GNOME;Unity` and add `;XFCE` to it (i.e. `OnlyShowIn=GNOME;Unity;XFCE`).
+
+
+
+
