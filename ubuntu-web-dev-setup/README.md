@@ -156,8 +156,6 @@ Tools
         `$ sudo apt-get update && sudo apt-get install s3cmd`
 
 
-
-
 GIT
 ---
 

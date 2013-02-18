@@ -238,6 +238,7 @@ Other Great Apps
 - Gimp
 - Trimage image compressor
 - K3B
+- Arista Transcoder - video converter
 
 
 Network File Sharing (NFS) - http://ubuntuforums.org/showthread.php?t=249889
@@ -262,7 +263,7 @@ Client:
 
 	- one time mount `sudo mount server.mydomain.com://home/user /mnt/localNameOfTheShare`
 
-	- mount at boot	`$ sudo nano /etc/fstab` add `server.mydomain.com://home/user /mnt/localNameOfTheShare nfs rw,soft,intr 0 0`
+	- mount at boot	`$ sudo nano -w /etc/fstab` add `server.mydomain.com://home/user /mnt/localNameOfTheShare nfs rw,soft,intr 0 0`
 
 	- `server.mydomain.com` can also be an IP address
 
