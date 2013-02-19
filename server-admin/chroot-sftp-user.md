@@ -67,7 +67,7 @@ Root must own user home directory:
     $ chown root:root /home/<user>
     $ chmod 0755 /home/<user>
 
-### Option 1: Establish one or more sub-directories (i.e. public_html) tha user can create files and sub-directories in:
+### Option 1: Establish one or more sub-directories (i.e. public_html) that user can create files and sub-directories in:
 
     $ mkdir /home/<user>/<sub-directory>
     $ chown <user>:<user> /home/<user>/<sub-directory>
