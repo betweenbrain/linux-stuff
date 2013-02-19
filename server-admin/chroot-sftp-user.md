@@ -3,12 +3,14 @@
 * OpenSSH 4.9p1 or newer
 
 Install OpenSSH:
+
     $ apt-get install openssh-server
 
 
 ## Configure OpenSSH
 
 Edit sshd_config
+
     $ nano /etc/ssh/sshd_config
 
 Comment existing Subsystem:
@@ -21,9 +23,11 @@ Add below it new Subsystem:
 
 
 Check that `PasswordAuthentication` is either set to yes or commented out (not no):
+
     # PasswordAuthentication Yes
 
 Add user to AllowUsers:
+
     AllowUsers <user>
 
 Add at end of sshd_config, add the following:
@@ -36,6 +40,7 @@ Add at end of sshd_config, add the following:
 
 
 ## Setup chrooted usergroup
+
     $ sudo groupadd sftp
 
 
