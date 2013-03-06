@@ -223,7 +223,13 @@ Tools / Apps
     - Share host folder
     `VBoxManage sharedfolder add "XP" -name "share" -hostpath /home/your/shared/directory/VirtualBoxShare/`
 
+7. Install PEAR
+    - Synaptic Package Manager `php-pear`
 
+8. Install Phing
+    $ pear channel-discover pear.phing.info
+    $ pear install phing/phing
+    $ pear install VersionControl_SVN-0.5.1
 
 Other Great Apps
 --------------
