@@ -241,6 +241,8 @@ Other Great Apps
 - Giggle Git repositoy viewer
 - palimpsest "Disk Utility"
 - Back in Time - http://backintime.le-web.org/
+    `$ sudo add-apt-repository ppa:bit-team/stable`
+
 - Gimp
 - Trimage image compressor
 - K3B
