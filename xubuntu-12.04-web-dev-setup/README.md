@@ -193,6 +193,13 @@ Tools / Apps
     PREREQUISITES - NodeJS: http://nodejs.org/
 
     `$ sudo apt-get install nodejs`
+    
+    From - https://github.com/mishoo/UglifyJS/issues/479#issuecomment-22239557
+    
+    `$ sudo add-apt-repository ppa:chris-lea/node.js`  
+    `$ sudo apt-get update`
+    `$ sudo apt-get install nodejs`
+    `$ npm install uglify-js`
 
     INSTALL
 
