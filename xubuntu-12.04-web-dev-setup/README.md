@@ -67,7 +67,7 @@ Web Server
     `    </Directory>`<br>
     `</IfModule>`
 
-4. Run Apache as yourself, add the following to end of /etc/apache2/httpd.conf - http://ubuntuforums.org/showthread.php?t=809934
+4. Run Apache as yourself, add the following to end of /etc/apache2/httpd.conf - http://ubuntuforums.org/showthread.php?t=809934. NOTE: This file may not exist by default, but exists for user configurations. You can create it with `$ sudo nano /etc/apache2/httpd.conf`
 
 	`ServerName localhost`
 
