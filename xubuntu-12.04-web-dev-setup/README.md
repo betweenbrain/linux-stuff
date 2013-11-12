@@ -238,6 +238,29 @@ Tools / Apps
     $ pear install phing/phing
     $ pear install VersionControl_SVN-0.5.1
 
+9. Install Ruby
+
+        $ sudo apt-get update
+        $ sudo wget http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p247.tar.gz
+        $ sudo apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison nodejs subversion
+        $ tar szfz ruby-2.0.0-p247.tar.gz
+        $ cd ruby-2.0.0-p247.tar.gz
+        $ ./configure
+        $ make
+        $ sudo make install
+        $ sudo gem update --system
+
+        # choose your interpreter
+        # changes symlinks for /usr/bin/ruby , /usr/bin/gem
+        # /usr/bin/irb, /usr/bin/ri and man (1) ruby
+        $ sudo update-alternatives --config ruby
+        $ sudo update-alternatives --config gem
+
+        # now try
+        $ ruby --version
+
+
+
 Other Great Apps
 --------------
 - Meld Diff Viewer
