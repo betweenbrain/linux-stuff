@@ -231,6 +231,15 @@ Tools / Apps
     $ pear install phing/phing
     $ pear install VersionControl_SVN-0.5.1
 
+9. Installing SASS
+	$ sudo apt-get install ruby-full build-essential
+	$ sudo apt-get install rubygems
+	$ sudo gem install sass
+	
+	$ sass -v
+	- If there is an error, add `export PATH=$PATH:/var/lib/gems/1.8/bin` to `~/.bashrc`
+
+
 Other Great Apps
 --------------
 - Meld Diff Viewer
