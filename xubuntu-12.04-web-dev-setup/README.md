@@ -67,7 +67,7 @@ Web Server
     `    </Directory>`<br>
     `</IfModule>`
 
-4. Run Apache as yourself, add the following to end of /etc/apache2/httpd.conf - http://ubuntuforums.org/showthread.php?t=809934
+4. Run Apache as yourself, add the following to end of /etc/apache2/httpd.conf - http://ubuntuforums.org/showthread.php?t=809934. NOTE: This file may not exist by default, but exists for user configurations. You can create it with `$ sudo nano /etc/apache2/httpd.conf`
 
 	`ServerName localhost`
 
@@ -193,6 +193,13 @@ Tools / Apps
     PREREQUISITES - NodeJS: http://nodejs.org/
 
     `$ sudo apt-get install nodejs`
+    
+    From - https://github.com/mishoo/UglifyJS/issues/479#issuecomment-22239557
+    
+    `$ sudo add-apt-repository ppa:chris-lea/node.js`  
+    `$ sudo apt-get update`
+    `$ sudo apt-get install nodejs`
+    `$ npm install uglify-js`
 
     INSTALL
 
@@ -231,8 +238,31 @@ Tools / Apps
     $ pear install phing/phing
     $ pear install VersionControl_SVN-0.5.1
 
-9. Installing SASS
+9. Install latest Ruby
+
+        $ sudo apt-get update
+        $ sudo wget http://cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p247.tar.gz
+        $ sudo apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison nodejs subversion
+        $ tar xvfz ruby-2.0.0-p247.tar.gz
+        $ cd ruby-2.0.0-p247.tar.gz
+        $ ./configure
+        $ make
+        $ sudo make install
+        $ sudo gem update --system
+
+        # choose your interpreter
+        # changes symlinks for /usr/bin/ruby , /usr/bin/gem
+        # /usr/bin/irb, /usr/bin/ri and man (1) ruby
+        $ sudo update-alternatives --config ruby
+        $ sudo update-alternatives --config gem
+
+        # now try
+        $ ruby --version
+
+10. Installing SASS
+	- Oprional setp if not compiling from source
 	$ sudo apt-get install ruby-full build-essential
+
 	$ sudo apt-get install rubygems
 	$ sudo gem install sass
 	
@@ -250,6 +280,8 @@ Other Great Apps
 - Giggle Git repositoy viewer
 - palimpsest "Disk Utility"
 - Back in Time - http://backintime.le-web.org/
+    `$ sudo add-apt-repository ppa:bit-team/stable`
+
 - Gimp
 - Trimage image compressor
 - K3B
