@@ -45,27 +45,28 @@ Web Server
 
 *[OPTIONAL]* Add dotdeb packages
 	
-	`$ sudo add-apt-repository ppa:ondrej/php5`
-
-	`$ sudo apt-get update`
-
-	`$ sudo apt-get dist-upgrade`
-
-
+	````
+	$ sudo add-apt-repository ppa:ondrej/php5
+	$ sudo apt-get update
+	$ sudo apt-get dist-upgrade
+	````
 
 2. Enable usermod to use user's home diretory in Apache
 
-	`$ sudo a2enmod userdir`
-
-	`$ sudo service apache2 restart`
+	````
+	$ sudo a2enmod userdir
+	$ sudo service apache2 restart
+	````
 
 3. Edit /etc/apache2/mods-enabled/php5.conf and comment `php_admin_value engine Off` of the line in the following code - http://forums.digitalpoint.com/showthread.php?t=1736370#post13839938
 
-    `<IfModule mod_userdir.c>`<br>
-    `   <Directory /home/*/public_html>`<br>
-    `#      php_admin_value engine Off`<br>
-    `    </Directory>`<br>
-    `</IfModule>`
+	````
+    	<IfModule mod_userdir.c>
+       		<Directory /home/*/public_html>
+    		#      php_admin_value engine Off
+        	</Directory>
+    	</IfModule>
+    	````
 
 4. Run Apache as yourself, create `/etc/apache2/conf-enabled/httpd.conf` and add:
 
