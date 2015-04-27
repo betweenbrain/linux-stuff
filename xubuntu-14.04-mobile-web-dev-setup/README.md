@@ -43,6 +43,16 @@ Web Server
 
 	`$ sudo apt-get install lamp-server^`
 
+Add dotdeb packages
+	
+	`$ sudo add-apt-repository ppa:ondrej/php5`
+
+	`$ sudo apt-get update`
+
+	`$ sudo apt-get dist-upgrade`
+
+
+
 2. Enable usermod to use user's home diretory in Apache
 
 	`$ sudo a2enmod userdir`
