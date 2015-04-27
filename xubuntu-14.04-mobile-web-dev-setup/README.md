@@ -43,7 +43,7 @@ Web Server
 
 	`$ sudo apt-get install lamp-server^`
 
-Add dotdeb packages
+*[OPTIONAL]* Add dotdeb packages
 	
 	`$ sudo add-apt-repository ppa:ondrej/php5`
 
