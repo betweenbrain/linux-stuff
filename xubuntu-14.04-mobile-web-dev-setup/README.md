@@ -67,13 +67,13 @@ Web Server
     `    </Directory>`<br>
     `</IfModule>`
 
-4. Run Apache as yourself, add the following to end of /etc/apache2/httpd.conf - http://ubuntuforums.org/showthread.php?t=809934. NOTE: This file may not exist by default, but exists for user configurations. You can create it with `$ sudo nano /etc/apache2/httpd.conf`
+4. Run Apache as yourself, create `/etc/apache2/conf-enabled/httpd.conf` and add:
 
-	`ServerName localhost`
-
-	`User username`
-
-	`Group username`
+	````
+	ServerName localhost
+  	User username
+	Group username
+	````
 
 
 // TODO: Review for Apache 2.4.7 
