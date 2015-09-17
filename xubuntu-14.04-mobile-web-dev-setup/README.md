@@ -4,7 +4,7 @@ Basic Setup
 WARNING: ATI/AMD proprietary FGLRX graphics drivers seem to prevent Java from working (may have other adverse affects)
 
 1. Update
-
+2. 
 	`$ sudo apt-get update && sudo apt-get upgrade`
 
 4. Free ctrl+f5
@@ -69,11 +69,11 @@ Web Server
     	
 
 4. Run Apache as yourself, create `/etc/apache2/conf-enabled/httpd.conf` and add:
-
-	
-	ServerName localhost
-  	User username
-	Group username
+````
+	ServerName localhost    
+  	User username    
+	Group username    
+````
 	
 
 
