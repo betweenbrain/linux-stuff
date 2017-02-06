@@ -327,12 +327,13 @@ Tweak Grub
 
 Realtek Network Driver - http://ubuntuforums.org/showpost.php?p=11585129&postcount=4
 -----
-	- if `lspci -nn | grep 0200` gives us `[10ec:8169]`
-	- `sudo modprobe r8169` to manually enable
-
-	- `sudo su`
-	- `echo r8169 >> /etc/modules`
-	- `exit`
+	* if `lspci -nn | grep 0200` gives us `[10ec:8169]`
+	* `sudo modprobe r8169` to manually enable
+	```
+	$ sudo su
+	$ echo r8169 >> /etc/modules
+	$ exit
+	```
 
 
 
