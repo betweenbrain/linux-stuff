@@ -48,7 +48,7 @@ LAMP
     - Disable default site and enable yours
     `$ sudo a2dissite default && sudo a2ensite username`
 
-6. Specificy DirectoryIndex of files - https://help.ubuntu.com/10.04/serverguide/C/httpd.html
+6. Specify DirectoryIndex of files - https://help.ubuntu.com/10.04/serverguide/C/httpd.html
 
     `$ sudo nano /etc/apache2/sites-available/username`
 
@@ -123,7 +123,7 @@ Tools
 
      Open Synaptic package manager and search for ‘gimp plugin registry’
 
-3. Install VirutalBox - https://help.ubuntu.com/community/VirtualBox
+3. Install VirtualBox - https://help.ubuntu.com/community/VirtualBox
     - Download  from http://www.virtualbox.org/wiki/Linux_Downloads for USB support
 	- if VT-X issue
 	`$ VBoxManage modifyvm virtualmachinename --hwvirtex off`
